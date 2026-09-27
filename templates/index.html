@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edge Impulse OCR</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <img src="https://cdn.prod.website-files.com/618cdeef45d18e4ef2fd85f3/618e33d89badebdfe7c5897a_Logo%20(2).svg" alt="Edge Impulse" class="logo">
+        <span class="header-title">OCR Demo</span>
+    </div>
+
+    <div class="main">
+        <div class="content-grid">
+            <div>
+                <div class="video-wrapper">
+                    <div class="video-container">
+                        <div class="placeholder" id="video-placeholder">
+                            <div class="placeholder-icon">&#9673;</div>
+                            <p>Select a camera and click Start</p>
+                        </div>
+                        <img id="video-feed" src="" alt="Camera feed" style="display: none;">
+                    </div>
+                    <div class="status-bar">
+                        <div class="status">
+                            <div class="status-dot" id="status-dot"></div>
+                            <span id="status-text">Stopped</span>
+                        </div>
+                        <span id="timing-info">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="panel">
+                    <div class="panel-title">Video Source</div>
+                    <div class="error" id="error-message"></div>
+                    <div class="controls">
+                        <input type="text" id="rtsp-url" placeholder="RTSP URL (e.g. rtsp://10.0.0.124:554/mjpeg/1)"
+                               title="RTSP / HTTP stream URL - takes priority over the camera dropdown when filled">
+                        <select id="camera-select">
+                            <option value="">Loading cameras...</option>
+                        </select>
+                        <div class="btn-row">
+                            <button class="btn btn-secondary" onclick="refreshCameras()">Refresh</button>
+                            <button class="btn btn-primary" id="start-btn" onclick="startInference()" disabled>
+                                <span id="start-btn-text">Start</span>
+                            </button>
+                            <button class="btn btn-danger" id="stop-btn" onclick="stopInference()" style="display: none;">
+                                Stop
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">Stats</div>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value" id="fps-value">--</div>
+                            <div class="stat-label">FPS</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="detections-value">0</div>
+                            <div class="stat-label">Detections</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="detector-time">--</div>
+                            <div class="stat-label">Detector ms</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="predictor-time">--</div>
+                            <div class="stat-label">Predictor ms</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">Detected Text</div>
+                    <div class="results-list" id="results-list">
+                        <div class="no-results">No detections yet</div>
+                    </div>
+                </div>
+
+                <div class="model-info">
+                    <div class="model-info-row">
+                        <span>Detector:</span>
+                        <span id="detector-name">--</span>
+                    </div>
+                    <div class="model-info-row">
+                        <span>Predictor:</span>
+                        <span id="predictor-name">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
